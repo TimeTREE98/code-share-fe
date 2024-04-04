@@ -6,6 +6,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+### `nvm use` or `nvm install`
+This command ensures you're using the correct version of Node.js as specified in the `.nvmrc` file. If the specified version is not installed, `nvm install` will automatically download and switch to it. This step is crucial to maintain a consistent development environment and avoid version-related issues.
+
 ### `yarn start`
 
 Runs the app in the development mode.\
