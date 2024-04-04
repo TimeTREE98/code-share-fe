@@ -1,73 +1,96 @@
-# Getting Started with Create React App
+# Internet Programming
+# Code-Share
+real-time 코드 공유 서비스
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## 웹개발팀 소개
 
-In the project directory, you can run:
+|                    안지유                    |                  오현의                  |
+| :------------------------------------------: | :--------------------------------------: |
+| [@zzzzzuuuuu](https://github.com/zzzzzuuuuu) | [@hyunyeee](https://github.com/hyunyeee) |
 
-### `nvm use` or `nvm install`
-This command ensures you're using the correct version of Node.js as specified in the `.nvmrc` file. If the specified version is not installed, `nvm install` will automatically download and switch to it. This step is crucial to maintain a consistent development environment and avoid version-related issues.
+## 시작가이드
 
-### `yarn start`
+### Installation
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```bash
+$ git clone https://github.com/hyunyeee/code-share-fe.git
+$ cd code-share-fe
+$ yarn install
+$ yarn start
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `yarn test`
+## Stacks 🪡
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Environment
 
-### `yarn build`
+![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-007ACC?style=for-the-badge&logo=Visual%20Studio%20Code&logoColor=white)
+![webstorm](https://img.shields.io/badge/webstorm-0071C5?style=for-the-badge&logo=webstorm&logoColor=white)
+![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=Git&logoColor=white)
+![Github](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Config
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+![yarn](https://img.shields.io/badge/yarn-2C8EBB?style=for-the-badge&logo=yarn&logoColor=white)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Development
 
-### `yarn eject`
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=Javascript&logoColor=white)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Communication
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+![Notion](https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=Notion&logoColor=white)
+![GoogleMeet](https://img.shields.io/badge/GoogleMeet-00897B?style=for-the-badge&logo=Google%20Meet&logoColor=white)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 화면 구성 📺
 
-## Learn More
+## 주요 기능 📦
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Convention 🚥
 
-### Code Splitting
+### Branch Naming Convention 🪵
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+| 머릿말     | 설명                               |
+|---------| ---------------------------------- |
+| main    | 서비스 브랜치                      |
+| develop | 배포 전 작업 기준                  |
+| feature | 기능 단위 구현                     |
+| hotfix  | 서비스 중 긴급 수정 건에 대한 처리 |
 
-### Analyzing the Bundle Size
+### Commit Convention ✅
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+| 머릿말      | 설명                      |
+|----------|-------------------------|
+| feat     | 기능 구현, 추가               |
+| fix      | 버그 수정, 예외 케이스 대응, 기능 개선 |
+| setting  | 패키지 설치 및 개발 설정          |
+| refactor | 코드 리팩터링                 |
+| design   | UI 수정                   |
+| style    | 코드 스타일 수정               |
+| rename   | 파일명 수정                  |
+| test     | 테스트 코드 추가               |
+| docs     | 문서 작성 및 변경              |
 
-### Making a Progressive Web App
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## 폴더 구조
+```
+.
+├──📝 App.js, index.js, ...
+│
+└── 📂 src
+    └── 📂api
+    │    └──📂 Axios.js
+    ├── 📂 assets
+    ├── 📂 components
+    ├── 📂 pages
+    └── 📂 styles
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```
