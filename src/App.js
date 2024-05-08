@@ -10,7 +10,7 @@ function App() {
       <GlobalStyle />
       <BrowserRouter>
         <Routes>
-          <Route element={<Main />} />
+          <Route element={<Main />} path="/" />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

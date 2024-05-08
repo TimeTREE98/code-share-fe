@@ -9,6 +9,10 @@ const Theme = {
       font-size: 16px;
       font-weight: 500;
     `,
+    BUTTON_TXT: css`
+      font-size: 20px;
+      font-weight: 700;
+    `,
     BIG_TXT: css`
       font-size: 20px;
       font-weight: 500;
