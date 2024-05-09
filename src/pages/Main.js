@@ -1,5 +1,7 @@
+import CodeEditer from '../components/codeEditer/CodeEditer';
+
 function Main() {
-  return <>메인페이지</>;
+  return <CodeEditer />;
 }
 
 export default Main;
