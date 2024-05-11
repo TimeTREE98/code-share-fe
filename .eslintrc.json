@@ -20,6 +20,8 @@
     "react/jsx-one-expression-per-line": 0,
     "no-nested-ternary": 0,
     "react/jsx-no-bind": 0,
-    "no-unused-vars": "off"
+    "no-unused-vars": "off",
+    "react/prop-types": "off",
+    "consistent-return": "off"
   }
 }
