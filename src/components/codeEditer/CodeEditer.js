@@ -4,28 +4,26 @@ import Editor from '@monaco-editor/react';
 import runIcon from '../../assets/run.svg';
 
 function CodeEditer({ socket }) {
-  const editorRef = useRef(null);
   const [result, setResult] = useState('');
-  const [codeText, setCodeText] = useState('// 코드를 입력해주세요');
+  const [code, setCode] = useState('// 코드를 입력해주세요');
 
   useEffect(() => {
     if (socket) {
       socket.on('code', (data) => {
-        setCodeText(data);
+        setCode(data);
       });
     }
   }, [socket]);
 
   function handleEditorChange(e) {
-    setCodeText(e);
+    setCode(e);
     if (socket) {
       socket.emit('code', e);
-      console.log(codeText);
+      console.log(code);
     }
   }
 
   function runCode() {
-    const code = codeText;
     const consoleMessages = [];
 
     // 기존 console.log 메서드 백업
@@ -55,7 +53,7 @@ function CodeEditer({ socket }) {
   return (
     <>
       <Editor
-        value={codeText}
+        value={code}
         height="50vh"
         language="javascript"
         theme="vs-dark"
