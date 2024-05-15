@@ -3,6 +3,7 @@ import { ThemeProvider } from 'styled-components';
 import { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import Main from './pages/Main';
+import LogIn from './pages/LogIn';
 import Theme from './styles/Theme';
 import GlobalStyle from './styles/GlobalStyle';
 
@@ -35,6 +36,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<Main socket={socket} />} path="/" />
+          <Route element={<LogIn />} path="/login" />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
