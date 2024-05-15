@@ -5,7 +5,6 @@ function Main({ socket }) {
   return (
     <SocketContainer>
       <CodeEditer socket={socket} />
-      <CodeEditer />
     </SocketContainer>
   );
 }

@@ -1,6 +1,7 @@
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useEffect, useRef, useState } from 'react';
 import Editor from '@monaco-editor/react';
+import { postCode } from '../../api/postCode';
 import runIcon from '../../assets/run.svg';
 
 function CodeEditer({ socket }) {
@@ -15,40 +16,18 @@ function CodeEditer({ socket }) {
     }
   }, [socket]);
 
-  function handleEditorChange(e) {
-    setCode(e);
+  const handleEditorChange = (e) => {
     if (socket) {
       socket.emit('code', e);
-      console.log(code);
+      setCode(e);
     }
-  }
+  };
 
-  function runCode() {
-    const consoleMessages = [];
-
-    // 기존 console.log 메서드 백업
-    const originalConsoleLog = console.log;
-
-    // 새로운 console.log 정의, 메시지를 배열에 추가
-    console.log = function (...args) {
-      consoleMessages.push(args.join(' '));
-      originalConsoleLog.apply(console, args);
-    };
-
-    try {
-      // eslint-disable-next-line no-eval
-      eval(code);
-    } catch (error) {
-      consoleMessages.push(`Error: ${error.message}`);
-    }
-
-    // `console.log`를 원래 기능으로 복원
-    console.log = originalConsoleLog;
-
-    // 수집된 메시지들을 하나의 문자열로 합쳐서 state에 저장
-    setResult(consoleMessages.join('\n'));
-    console.log(result);
-  }
+  const runCode = async () => {
+    console.log(code);
+    const response = await postCode(code);
+    await console.log(response);
+  };
 
   return (
     <>
@@ -64,10 +43,11 @@ function CodeEditer({ socket }) {
           autoClosingBrackets: true,
           minimap: { scale: 10 },
         }}
-        onChange={handleEditorChange}
+        onChange={(e) => handleEditorChange(e)}
       />
       <ResultContainer>
-        <RunButton type="button" onClick={runCode}>
+        <RunButton type="button" onClick={() => runCode()}>
+          <img src={runIcon} alt="실행 아이콘" />
           Run
         </RunButton>
         <Result>{result}</Result>
