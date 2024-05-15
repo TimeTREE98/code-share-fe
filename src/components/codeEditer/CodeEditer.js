@@ -1,18 +1,29 @@
 import styled from 'styled-components';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Editor from '@monaco-editor/react';
 import runIcon from '../../assets/run.svg';
 
-function CodeEditer() {
-  const editorRef = useRef(null);
+function CodeEditer({ socket }) {
   const [result, setResult] = useState('');
+  const [code, setCode] = useState('// 코드를 입력해주세요');
 
-  function handleEditorDidMount(editor) {
-    editorRef.current = editor;
+  useEffect(() => {
+    if (socket) {
+      socket.on('code', (data) => {
+        setCode(data);
+      });
+    }
+  }, [socket]);
+
+  function handleEditorChange(e) {
+    setCode(e);
+    if (socket) {
+      socket.emit('code', e);
+      console.log(code);
+    }
   }
 
   function runCode() {
-    const code = editorRef.current?.getValue();
     const consoleMessages = [];
 
     // 기존 console.log 메서드 백업
@@ -42,7 +53,7 @@ function CodeEditer() {
   return (
     <>
       <Editor
-        value="// 코드를 입력해주세요"
+        value={code}
         height="50vh"
         language="javascript"
         theme="vs-dark"
@@ -53,11 +64,10 @@ function CodeEditer() {
           autoClosingBrackets: true,
           minimap: { scale: 10 },
         }}
-        onMount={handleEditorDidMount}
+        onChange={handleEditorChange}
       />
       <ResultContainer>
         <RunButton type="button" onClick={runCode}>
-          <img src={runIcon} alt="실행 아이콘" />
           Run
         </RunButton>
         <Result>{result}</Result>
