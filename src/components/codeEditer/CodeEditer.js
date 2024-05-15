@@ -5,16 +5,27 @@ import { postCode } from '../../api/postCode';
 import runIcon from '../../assets/run.svg';
 
 function CodeEditer({ socket }) {
+  const [runResponse, setRunResponse] = useState([]);
   const [result, setResult] = useState('');
   const [code, setCode] = useState('// 코드를 입력해주세요');
 
+  // eslint-disable-next-line camelcase
+  const { compile_output, memory, message, status, stderr, stdout, time, token } = runResponse || [];
+
   useEffect(() => {
-    if (socket) {
-      socket.on('code', (data) => {
-        setCode(data);
-      });
-    }
-  }, [socket]);
+    const handleResult = () => {
+      if (!status) return;
+      switch (status?.id) {
+        case 3:
+          setResult(stdout);
+          break;
+        case (4, 5, 6, 7, 8, 9, 10, 11):
+          setResult(stderr);
+          break;
+      }
+    };
+    handleResult();
+  }, [runResponse]);
 
   const handleEditorChange = (e) => {
     if (socket) {
@@ -24,11 +35,22 @@ function CodeEditer({ socket }) {
   };
 
   const runCode = async () => {
-    console.log(code);
     const response = await postCode(code);
     await console.log(response);
+    await setRunResponse(response);
   };
 
+  useEffect(() => {
+    if (socket) {
+      socket.on('code', (data) => {
+        setCode(data);
+      });
+    }
+  }, [socket]);
+
+  useEffect(() => {
+    console.log(result);
+  }, [result]);
   return (
     <>
       <Editor

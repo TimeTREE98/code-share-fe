@@ -6,7 +6,7 @@ export const postCode = async (code) => {
       source_code: code,
       language_id: 63,
     });
-    return response;
+    return response.data;
   } catch (error) {
     return error;
   }

@@ -22,7 +22,7 @@
     "react/jsx-no-bind": 0,
     "no-unused-vars": "off",
     "import/prefer-default-export": "off",
-    "no-unused-vars": "off",
+    "default-case": "off",
     "react/prop-types": "off",
     "consistent-return": "off"
   }
