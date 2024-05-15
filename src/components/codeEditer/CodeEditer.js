@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Editor from '@monaco-editor/react';
+import { encode, decode } from 'js-base64';
 import { postCode } from '../../api/postCode';
 import runIcon from '../../assets/run.svg';
 
@@ -35,7 +36,7 @@ function CodeEditer({ socket }) {
   };
 
   const runCode = async () => {
-    const response = await postCode(code);
+    const response = await postCode(encode(code));
     await console.log(response);
     await setRunResponse(response);
   };
@@ -72,7 +73,7 @@ function CodeEditer({ socket }) {
           <img src={runIcon} alt="실행 아이콘" />
           Run
         </RunButton>
-        <Result>{result}</Result>
+        <Result>{decode(result)}</Result>
       </ResultContainer>
     </>
   );
