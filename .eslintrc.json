@@ -22,8 +22,9 @@
     "react/jsx-no-bind": 0,
     "no-unused-vars": "off",
     "import/prefer-default-export": "off",
-    "no-unused-vars": "off",
     "react/prop-types": "off",
-    "consistent-return": "off"
+    "consistent-return": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/function-component-definition": "off"
   }
 }
