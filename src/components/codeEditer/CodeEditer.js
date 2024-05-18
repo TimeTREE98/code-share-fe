@@ -73,7 +73,7 @@ function CodeEditer({ socket }) {
           <img src={runIcon} alt="실행 아이콘" />
           Run
         </RunButton>
-        <Result>{decode(result)}</Result>
+        <Result>{result ? decode(result) : ''}</Result>
       </ResultContainer>
     </>
   );
