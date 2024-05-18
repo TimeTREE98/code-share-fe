@@ -59,8 +59,8 @@ const LogInForm = () => {
         errorMsg={errors.id?.message}
       />
       <Input
-        id="password"
-        name="password"
+        id="pw"
+        name="pw"
         value={value || ''}
         setValue={setValue}
         label="비밀번호"

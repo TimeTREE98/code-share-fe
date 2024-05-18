@@ -6,8 +6,8 @@ export const LoginApi = (data, callbackFunctions) => {
     id: data.id,
     pw: data.pw,
   })
-    .then(() => {
-      loginSuccess();
+    .then((res) => {
+      loginSuccess(res);
     })
     .catch((error) => {
       loginError(error);
