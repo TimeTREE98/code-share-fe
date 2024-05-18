@@ -9,16 +9,12 @@ const GlobalStyle = createGlobalStyle`
   }
 
   html {
-    width: 100%;
-    height: 100%;
     margin: 0;
     padding: 0;
     background-color: #1C1B1A;
   }
 
   body {
-    width: 100%;
-    height: 100%;
     margin: 0;
     padding: 0;
     font-family: 'GmarketSans', 'nanumgothic', sans-serif;

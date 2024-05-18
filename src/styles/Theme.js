@@ -2,9 +2,17 @@ import { css } from 'styled-components';
 
 const Theme = {
   colors: {
-    TXT_BLACK: '#CCCCCC',
+    WHITE: '#e5e5e5',
+    GRAY: '#CCCCCC',
+    DARK_GRAY: '#333333',
+    RED: '#F84241',
+    MAIN_COLOR: '#687EFF',
   },
   typographies: {
+    TITLE: css`
+      font-size: 32px;
+      font-weight: 700;
+    `,
     DEFAULT_TXT: css`
       font-size: 16px;
       font-weight: 500;
