@@ -17,10 +17,10 @@ function CodeEditer({ socket }) {
     if (Object.keys(runResponse).length === 0) {
       return;
     }
-    if (runResponse?.status?.id === 3) {
-      setResult(decode(runResponse?.stdout));
-    } else if (runResponse?.status?.id > 3) {
-      setResult(decode(runResponse?.stderr));
+    if (status?.id === 3) {
+      setResult(decode(stdout));
+    } else if (status?.id > 3) {
+      setResult(decode(stderr));
     }
   }, [runResponse]);
 
@@ -69,7 +69,7 @@ function CodeEditer({ socket }) {
           <img src={runIcon} alt="실행 아이콘" />
           Run
         </RunButton>
-        <Result>{result ? decode(result) : ''}</Result>
+        <Result>{result || ''}</Result>
       </ResultContainer>
     </>
   );
