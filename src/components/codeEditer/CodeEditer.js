@@ -9,18 +9,20 @@ function CodeEditer({ socket }) {
   const [runResponse, setRunResponse] = useState({});
   const [result, setResult] = useState('');
   const [code, setCode] = useState('// 코드를 입력해주세요');
-
+  const [isError, setIsError] = useState(false);
   // eslint-disable-next-line camelcase
-  const { compile_output, memory, message, status, stderr, stdout, time, token } = runResponse || [];
+  const { compile_output, memory, message, status, stderr, stdout, time, token } = runResponse || {};
 
   useEffect(() => {
     if (Object.keys(runResponse).length === 0) {
       return;
     }
     if (status?.id === 3) {
-      setResult(decode(stdout));
+      setIsError(false);
+      setResult(decode(stdout || ''));
     } else if (status?.id > 3) {
-      setResult(decode(stderr));
+      setIsError(true);
+      setResult(decode(stderr || ''));
     }
   }, [runResponse]);
 
@@ -69,7 +71,7 @@ function CodeEditer({ socket }) {
           <img src={runIcon} alt="실행 아이콘" />
           Run
         </RunButton>
-        <Result>{result || ''}</Result>
+        <Result $isError={isError}>{result || ''}</Result>
       </ResultContainer>
     </>
   );
@@ -78,6 +80,7 @@ function CodeEditer({ socket }) {
 export default CodeEditer;
 
 const ResultContainer = styled.div`
+  height: calc(100% - 50vh);
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -85,17 +88,24 @@ const ResultContainer = styled.div`
 const RunButton = styled.button`
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 20px;
+  gap: 8px;
+  padding: 14px 20px;
   border-radius: 8px;
-  background-color: #7cca61;
   color: white;
   ${({ theme }) => theme.typographies.BUTTON_TXT}
+  background-color: ${({ theme }) => theme.colors.GREEN_2};
 `;
 const Result = styled.div`
+  height: calc(100% - 63px);
   min-height: 300px;
   padding: 20px;
-  ${({ theme }) => theme.typographies.DEFAULT_TXT}
+
+  font-family: Consolas, 'Courier New', monospace;
+  ${({ theme }) => theme.typographies.DEFAULT_TXT};
+  line-height: 1.5;
+  letter-spacing: normal;
   white-space: pre;
-  background-color: white;
+
+  color: ${({ theme, $isError }) => ($isError ? theme.colors.RED_2 : theme.colors.WHITE)};
+  background-color: #1c1b1a;
 `;

@@ -5,7 +5,7 @@ const GlobalStyle = createGlobalStyle`
   ${reset}
   * {
     box-sizing: border-box;
-    font-family: 'GmarketSans', 'nanumgothic', sans-serif;
+      font-family: "Source Code Pro", Menlo, Monaco, Consolas, "Courier New", monospace;
   }
 
   html {
@@ -17,7 +17,6 @@ const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
     padding: 0;
-    font-family: 'GmarketSans', 'nanumgothic', sans-serif;
     overflow-x: hidden;
     scrollbar-width: none; /* Firefox */
   }
