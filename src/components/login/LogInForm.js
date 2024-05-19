@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 import { useState } from 'react';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { useForm } from 'react-hook-form';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { yupResolver } from '@hookform/resolvers/yup';
 import Input from './Input';
 import { loginSchema } from '../../validation/schema';
@@ -32,7 +30,6 @@ const LogInForm = () => {
 
   const onSubmit = async (data) => {
     console.log(data);
-    // eslint-disable-next-line no-use-before-define
     LoginApi(data, callbackFunctions);
   };
 
