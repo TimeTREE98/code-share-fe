@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Input from './Input';
 import { loginSchema } from '../../validation/schema';
-import { login } from '../../api/LoginApi';
+import { login, me } from '../../api/LoginApi';
 
 const LogInForm = () => {
   const [isOpen, setIsOpen] = useState({
@@ -30,7 +30,10 @@ const LogInForm = () => {
 
   const onSubmit = async (data) => {
     console.log(data);
-    await login(data);
+    const loginResult = await login(data);
+    if (loginResult.data.status === 'Success') {
+      await me();
+    }
   };
 
   return (
