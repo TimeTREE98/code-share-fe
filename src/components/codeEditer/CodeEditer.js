@@ -11,7 +11,7 @@ function CodeEditer({ socket }) {
   const [code, setCode] = useState('// 코드를 입력해주세요');
   const [isError, setIsError] = useState(false);
   // eslint-disable-next-line camelcase
-  const { compile_output, memory, message, status, stderr, stdout, time, token } = runResponse || {};
+  const { memory, status, stderr, stdout, time } = runResponse || {};
 
   useEffect(() => {
     if (Object.keys(runResponse).length === 0) {
@@ -47,9 +47,6 @@ function CodeEditer({ socket }) {
     }
   }, [socket]);
 
-  useEffect(() => {
-    console.log(result);
-  }, [result]);
   return (
     <>
       <Editor
@@ -67,10 +64,17 @@ function CodeEditer({ socket }) {
         onChange={(e) => handleEditorChange(e)}
       />
       <ResultContainer>
-        <RunButton type="button" onClick={() => runCode()}>
-          <img src={runIcon} alt="실행 아이콘" />
-          Run
-        </RunButton>
+        <SubmissionsContainer>
+          <RunButton type="button" onClick={() => runCode()}>
+            <img src={runIcon} alt="실행 아이콘" />
+            Run
+          </RunButton>
+          <Submissions>
+            <Submission>memory: {memory}kb</Submission>
+            <Submission>run time: {time}s</Submission>
+            <Submission>status: {status?.description}</Submission>
+          </Submissions>
+        </SubmissionsContainer>
         <Result $isError={isError}>{result || ''}</Result>
       </ResultContainer>
     </>
@@ -80,10 +84,11 @@ function CodeEditer({ socket }) {
 export default CodeEditer;
 
 const ResultContainer = styled.div`
+  width: 100%;
   height: calc(100% - 50vh);
   position: fixed;
   bottom: 0;
-  width: 100%;
+  font-family: Consolas, 'Courier New', monospace;
 `;
 const RunButton = styled.button`
   display: flex;
@@ -95,12 +100,20 @@ const RunButton = styled.button`
   ${({ theme }) => theme.typographies.BUTTON_TXT}
   background-color: ${({ theme }) => theme.colors.GREEN_2};
 `;
+const SubmissionsContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  color: ${({ theme }) => theme.colors.WHITE};
+`;
+const Submissions = styled.div`
+  padding: 14px 20px 0 0;
+`;
+const Submission = styled.p``;
 const Result = styled.div`
   height: calc(100% - 63px);
   min-height: 300px;
   padding: 20px;
 
-  font-family: Consolas, 'Courier New', monospace;
   ${({ theme }) => theme.typographies.DEFAULT_TXT};
   line-height: 1.5;
   letter-spacing: normal;
