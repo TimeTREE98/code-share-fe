@@ -29,10 +29,14 @@ const LogInForm = () => {
   };
 
   const onSubmit = async (data) => {
-    console.log(data);
     const loginResult = await login(data);
-    if (loginResult.data.status === 'Success') {
-      await me();
+    if (loginResult.status === 'Success') {
+      const meCheck = await me();
+      if (meCheck.status === 'fail') {
+        alert(meCheck.message);
+      }
+    } else {
+      alert(loginResult.message);
     }
   };
 

@@ -6,18 +6,17 @@ export const login = async (data) => {
       id: data.id,
       pw: data.pw,
     });
-    console.log(response);
-    return response;
+    return response.data;
   } catch (error) {
-    console.error(error);
+    return { message: '로그인에 실패했습니다.' };
   }
 };
 
 export const me = async () => {
   try {
     const response = await Axios.get('/auth/me');
-    console.log(response);
+    return response.data;
   } catch (error) {
-    console.error(error);
+    return { status: 'fail', message: '에러 발생!! 쿠키 지우고 강제 리프레쉬 부탁드립니다' };
   }
 };
