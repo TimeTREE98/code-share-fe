@@ -1,20 +1,34 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Editor from '@monaco-editor/react';
+import { encode, decode } from 'js-base64';
+import { ring2 } from 'ldrs';
 import { postCode } from '../../api/postCode';
 import runIcon from '../../assets/run.svg';
 
 function CodeEditer({ socket }) {
+  const [runResponse, setRunResponse] = useState({});
   const [result, setResult] = useState('');
   const [code, setCode] = useState('// 코드를 입력해주세요');
+  const [isError, setIsError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  // eslint-disable-next-line camelcase
+  const { memory, status, stderr, stdout, time } = runResponse || {};
+
+  ring2.register();
 
   useEffect(() => {
-    if (socket) {
-      socket.on('code', (data) => {
-        setCode(data);
-      });
+    if (Object.keys(runResponse).length === 0) {
+      return;
     }
-  }, [socket]);
+    if (status?.id === 3) {
+      setIsError(false);
+      setResult(decode(stdout || ''));
+    } else if (status?.id > 3) {
+      setIsError(true);
+      setResult(decode(stderr || ''));
+    }
+  }, [runResponse]);
 
   const handleEditorChange = (e) => {
     if (socket) {
@@ -24,11 +38,23 @@ function CodeEditer({ socket }) {
   };
 
   const runCode = async () => {
-    console.log(code);
-    const response = await postCode(code);
-    await console.log(response);
+    setIsLoading(true);
+    const response = await postCode(encode(code));
+    setIsLoading(false);
+    setRunResponse(response);
   };
 
+  useEffect(() => {
+    if (socket) {
+      socket.on('code', (data) => {
+        setCode(data);
+      });
+    }
+  }, [socket]);
+
+  useEffect(() => {
+    console.log(result);
+  }, [result]);
   return (
     <>
       <Editor
@@ -46,11 +72,22 @@ function CodeEditer({ socket }) {
         onChange={(e) => handleEditorChange(e)}
       />
       <ResultContainer>
-        <RunButton type="button" onClick={() => runCode()}>
-          <img src={runIcon} alt="실행 아이콘" />
-          Run
-        </RunButton>
-        <Result>{result}</Result>
+        <SubmissionsContainer>
+          <RunButton type="button" onClick={() => runCode()} disabled={isLoading}>
+            {isLoading ? (
+              <l-ring-2 size="25" stroke="5" stroke-length="0.25" bg-opacity="0.1" speed="0.8" color="white" />
+            ) : (
+              <img src={runIcon} alt="실행 아이콘" />
+            )}
+            Run
+          </RunButton>
+          <Submissions>
+            <Submission>memory: {memory}kb</Submission>
+            <Submission>run time: {time}s</Submission>
+            <Submission>status: {status?.description}</Submission>
+          </Submissions>
+        </SubmissionsContainer>
+        <Result $isError={isError}>{result || ''}</Result>
       </ResultContainer>
     </>
   );
@@ -59,24 +96,42 @@ function CodeEditer({ socket }) {
 export default CodeEditer;
 
 const ResultContainer = styled.div`
+  width: 100%;
+  height: calc(100% - 50vh);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   position: fixed;
   bottom: 0;
-  width: 100%;
+  font-family: Consolas, 'Courier New', monospace;
 `;
 const RunButton = styled.button`
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 20px;
+  gap: 8px;
+  padding: 14px 20px;
   border-radius: 8px;
-  background-color: #7cca61;
   color: white;
   ${({ theme }) => theme.typographies.BUTTON_TXT}
+  background-color: ${({ theme, disabled }) => (disabled ? theme.colors.GRAY : theme.colors.GREEN_2)};
 `;
+const SubmissionsContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  color: ${({ theme }) => theme.colors.WHITE};
+`;
+const Submissions = styled.div``;
+const Submission = styled.p``;
 const Result = styled.div`
-  min-height: 300px;
-  padding: 20px;
-  ${({ theme }) => theme.typographies.DEFAULT_TXT}
-  white-space: pre;
-  background-color: white;
+  height: calc(100% - 62px);
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  overflow-y: scroll;
+  ${({ theme }) => theme.typographies.DEFAULT_TXT};
+  color: ${({ theme, $isError }) => ($isError ? theme.colors.RED_2 : theme.colors.WHITE)};
+  line-height: 1.5;
+  letter-spacing: normal;
+  background-color: #1c1b1a;
 `;

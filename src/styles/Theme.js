@@ -6,6 +6,9 @@ const Theme = {
     GRAY: '#CCCCCC',
     DARK_GRAY: '#333333',
     RED: '#F84241',
+    RED_2: '#ee7070',
+    GREEN_1: '#98c379',
+    GREEN_2: '#7cca61',
     MAIN_COLOR: '#687EFF',
   },
   typographies: {
@@ -19,7 +22,7 @@ const Theme = {
     `,
     BUTTON_TXT: css`
       font-size: 20px;
-      font-weight: 700;
+      font-weight: 600;
     `,
     BIG_TXT: css`
       font-size: 20px;
