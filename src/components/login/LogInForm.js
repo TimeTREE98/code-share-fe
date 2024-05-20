@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Input from './Input';
 import { loginSchema } from '../../validation/schema';
+import { login, me } from '../../api/LoginApi';
 
 const LogInForm = () => {
   const [isOpen, setIsOpen] = useState({
@@ -28,7 +29,15 @@ const LogInForm = () => {
   };
 
   const onSubmit = async (data) => {
-    console.log(data);
+    const loginResult = await login(data);
+    if (loginResult.status === 'Success') {
+      const meCheck = await me();
+      if (meCheck.status === 'fail') {
+        alert(meCheck.message);
+      }
+    } else {
+      alert(loginResult.message);
+    }
   };
 
   return (
@@ -45,8 +54,8 @@ const LogInForm = () => {
         errorMsg={errors.id?.message}
       />
       <Input
-        id="password"
-        name="password"
+        id="pw"
+        name="pw"
         value={value || ''}
         setValue={setValue}
         label="비밀번호"
