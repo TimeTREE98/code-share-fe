@@ -52,6 +52,9 @@ function CodeEditer({ socket }) {
     }
   }, [socket]);
 
+  useEffect(() => {
+    console.log(result);
+  }, [result]);
   return (
     <>
       <Editor
@@ -122,7 +125,7 @@ const Submissions = styled.div``;
 const Submission = styled.p``;
 const Result = styled.div`
   height: calc(100% - 62px);
-  white-space: normal;
+  white-space: pre-wrap;
   word-break: break-word;
   overflow-wrap: break-word;
   overflow-y: scroll;
