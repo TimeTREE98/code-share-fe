@@ -1,6 +1,6 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { ThemeProvider } from 'styled-components';
 import { useEffect, useState } from 'react';
+import { ThemeProvider } from 'styled-components';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import Main from './pages/Main';
 import LogIn from './pages/LogIn';
@@ -14,12 +14,10 @@ function App() {
     if (!socket) {
       setSocket(io(`${process.env.REACT_APP_BASE_URL}`));
     }
-
     if (socket) {
       socket.on('connect', () => {
         console.log('connected');
       });
-
       socket.on('disconnect', () => {
         console.log('disconnected');
       });

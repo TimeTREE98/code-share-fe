@@ -1,9 +1,15 @@
 import styled from 'styled-components';
+import { useEffect, useState } from 'react';
 import AdminCodeEditer from '../components/codeEditer/AdminCodeEditer';
 import StudentCodeEditer from '../components/codeEditer/StudentCodeEditer';
 
 function Main({ socket }) {
-  const isLoggedIn = false;
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    setIsLoggedIn(localStorage.getItem('isLoggedIn') === 'true');
+  }, []);
+
   return (
     <SocketContainer>
       {isLoggedIn ? (
