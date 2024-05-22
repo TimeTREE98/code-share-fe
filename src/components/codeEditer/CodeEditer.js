@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Editor from '@monaco-editor/react';
 import { encode, decode } from 'js-base64';
+import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import { ring2 } from 'ldrs';
 import { postCode } from '../../api/postCode';
 import runIcon from '../../assets/run.svg';
@@ -51,45 +52,46 @@ function CodeEditer({ socket }) {
       });
     }
   }, [socket]);
-
-  useEffect(() => {
-    console.log(result);
-  }, [result]);
   return (
-    <>
-      <Editor
-        value={code}
-        height="50vh"
-        language="javascript"
-        theme="vs-dark"
-        options={{
-          inlineSuggest: true,
-          fontSize: '16px',
-          formatOnType: true,
-          autoClosingBrackets: true,
-          minimap: { scale: 10 },
-        }}
-        onChange={(e) => handleEditorChange(e)}
-      />
-      <ResultContainer>
-        <SubmissionsContainer>
-          <RunButton type="button" onClick={() => runCode()} disabled={isLoading}>
-            {isLoading ? (
-              <l-ring-2 size="25" stroke="5" stroke-length="0.25" bg-opacity="0.1" speed="0.8" color="white" />
-            ) : (
-              <img src={runIcon} alt="실행 아이콘" />
-            )}
-            Run
-          </RunButton>
-          <Submissions>
-            <Submission>memory: {memory}kb</Submission>
-            <Submission>run time: {time}s</Submission>
-            <Submission>status: {status?.description}</Submission>
-          </Submissions>
-        </SubmissionsContainer>
-        <Result $isError={isError}>{result || ''}</Result>
-      </ResultContainer>
-    </>
+    <PanelGroup autoSaveId="example" direction="vertical" style={{ height: '100vh' }}>
+      <Panel defaultSizePercentage={25}>
+        <Editor
+          value={code}
+          height="100%"
+          language="javascript"
+          theme="vs-dark"
+          options={{
+            inlineSuggest: true,
+            fontSize: '16px',
+            formatOnType: true,
+            autoClosingBrackets: true,
+            minimap: { scale: 10 },
+          }}
+          onChange={(e) => handleEditorChange(e)}
+        />
+      </Panel>
+      <StyledHandle />
+      <Panel defaultSizePercentage={25}>
+        <ResultContainer>
+          <SubmissionsContainer>
+            <RunButton type="button" onClick={() => runCode()} disabled={isLoading}>
+              {isLoading ? (
+                <l-ring-2 size="25" stroke="5" stroke-length="0.25" bg-opacity="0.1" speed="0.8" color="white" />
+              ) : (
+                <img src={runIcon} alt="실행 아이콘" />
+              )}
+              Run
+            </RunButton>
+            <Submissions>
+              <Submission>memory: {memory}kb</Submission>
+              <Submission>run time: {time}s</Submission>
+              <Submission>status: {status?.description}</Submission>
+            </Submissions>
+          </SubmissionsContainer>
+          <Result $isError={isError}>{result || ''}</Result>
+        </ResultContainer>
+      </Panel>
+    </PanelGroup>
   );
 }
 
@@ -97,12 +99,11 @@ export default CodeEditer;
 
 const ResultContainer = styled.div`
   width: 100%;
-  height: calc(100% - 50vh);
+  height: 100%;
   padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  position: fixed;
   bottom: 0;
   font-family: Consolas, 'Courier New', monospace;
 `;
@@ -134,4 +135,8 @@ const Result = styled.div`
   line-height: 1.5;
   letter-spacing: normal;
   background-color: #1c1b1a;
+`;
+const StyledHandle = styled(PanelResizeHandle)`
+  background-color: ${({ theme }) => theme.colors.DARK_GRAY};
+  height: 10px;
 `;
