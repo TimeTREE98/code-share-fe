@@ -12,7 +12,7 @@ function App() {
 
   useEffect(() => {
     if (!socket) {
-      setSocket(io(`${process.env.REACT_APP_BASE_URL}`));
+      setSocket(io(`${process.env.REACT_APP_BASE_URL}`, { withCredentials: true }));
     }
 
     if (socket) {
