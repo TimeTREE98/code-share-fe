@@ -52,9 +52,6 @@ function CodeEditer({ socket }) {
     }
   }, [socket]);
 
-  useEffect(() => {
-    console.log(result);
-  }, [result]);
   return (
     <>
       <Editor
