@@ -38,7 +38,7 @@ const StudentCodeEditer = () => {
     }
   }, [runResponse]);
   return (
-    <PanelGroup autoSaveId="example" direction="vertical" style={{ height: '100vh' }}>
+    <PanelGroup direction="vertical" style={{ height: '100vh' }}>
       <Panel>
         <Editor
           value={code}
