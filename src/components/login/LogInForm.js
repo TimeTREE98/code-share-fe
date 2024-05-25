@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Input from './Input';
@@ -10,6 +11,7 @@ const LogInForm = () => {
   const [isOpen, setIsOpen] = useState({
     password: false,
   });
+  const navigate = useNavigate();
 
   const {
     register,
@@ -32,11 +34,15 @@ const LogInForm = () => {
     const loginResult = await login(data);
     if (loginResult.status === 'Success') {
       const meCheck = await me();
+      localStorage.setItem('isLoggedIn', true);
+      navigate('/');
       if (meCheck.status === 'fail') {
         alert(meCheck.message);
+        localStorage.setItem('isLoggedIn', false);
       }
     } else {
       alert(loginResult.message);
+      localStorage.setItem('isLoggedIn', false);
     }
   };
 
