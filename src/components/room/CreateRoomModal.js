@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { createRoom } from '../../api/CreateRoom';
 
 const CreateRoomModal = (props) => {
   const { setModal } = props;
@@ -7,8 +8,9 @@ const CreateRoomModal = (props) => {
   const closeModal = () => {
     setModal(false);
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault(); // 폼 제출시에 새로고침 방지함
+    const createRoomResult = await createRoom(title);
     closeModal();
   };
 
