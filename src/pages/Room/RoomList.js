@@ -1,14 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import NotRoom from '../../components/room/NotRoom';
+import { getRooms } from '../../api/GetRooms';
 
 const RoomList = () => {
-  const [isRoom, setIsRoom] = useState(false);
+  const [rooms, setRooms] = useState(null);
 
-  console.log(isRoom);
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await getRooms();
+        console.log(response);
+        setRooms(response.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
+
+  console.log(rooms);
   return (
     <RoomListContainer>
-      {isRoom ? (
+      {rooms ? (
         <RoomLists>
           <p>1번방...</p>
           <p>2번방...</p>
