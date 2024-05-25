@@ -6,8 +6,9 @@ import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import { ring2 } from 'ldrs';
 import { postCode } from '../../api/postCode';
 import ResultContainer from './ResultContainer';
+import FileList from './FileList';
 
-function AdminCodeEditer({ socket }) {
+function AdminCodeEditer({ socket, ...attrProps }) {
   const [runResponse, setRunResponse] = useState({});
   const [result, setResult] = useState('');
   const [code, setCode] = useState('// 코드를 입력해주세요');
@@ -53,41 +54,48 @@ function AdminCodeEditer({ socket }) {
     }
   }, [socket]);
   return (
-    <PanelGroup autoSaveId="example" direction="vertical" style={{ height: '100vh' }}>
-      <Panel>
-        <Editor
-          value={code}
-          height="100%"
-          language="javascript"
-          theme="vs-dark"
-          options={{
-            inlineSuggest: true,
-            fontSize: '16px',
-            formatOnType: true,
-            autoClosingBrackets: true,
-            minimap: { scale: 10 },
-          }}
-          onChange={(e) => handleEditorChange(e)}
-        />
-      </Panel>
-      <StyledHandle />
-      <Panel>
-        <ResultContainer
-          runCode={runCode}
-          isLoading={isLoading}
-          isError={isError}
-          memory={memory}
-          time={time}
-          status={status}
-          result={result}
-        />
-      </Panel>
-    </PanelGroup>
+    <Container {...attrProps}>
+      <FileList />
+      <PanelGroup autoSaveId="example" direction="vertical" style={{ height: '100vh' }}>
+        <Panel>
+          <Editor
+            value={code}
+            height="100%"
+            language="javascript"
+            theme="vs-dark"
+            options={{
+              inlineSuggest: true,
+              fontSize: '16px',
+              formatOnType: true,
+              autoClosingBrackets: true,
+              minimap: { scale: 10 },
+            }}
+            onChange={(e) => handleEditorChange(e)}
+          />
+        </Panel>
+        <StyledHandle />
+        <Panel>
+          <ResultContainer
+            runCode={runCode}
+            isLoading={isLoading}
+            isError={isError}
+            memory={memory}
+            time={time}
+            status={status}
+            result={result}
+          />
+        </Panel>
+      </PanelGroup>
+    </Container>
   );
 }
 
 export default AdminCodeEditer;
 
+const Container = styled.div`
+  width: 100vw;
+  display: flex;
+`;
 const StyledHandle = styled(PanelResizeHandle)`
   background-color: ${({ theme }) => theme.colors.DARK_GRAY};
   height: 10px;

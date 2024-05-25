@@ -19,7 +19,7 @@ function Main({ socket }) {
         <PanelGroup direction="horizontal">
           <StudentLayout>
             <Panel>
-              <AdminCodeEditer socket={socket} />
+              <AdminEditer socket={socket} />
             </Panel>
             <StyledHandle />
             <Panel>
@@ -41,7 +41,9 @@ const StudentLayout = styled.div`
   width: 100%;
   display: flex;
 `;
-
+const AdminEditer = styled(AdminCodeEditer)`
+  width: 100%;
+`;
 const StyledHandle = styled(PanelResizeHandle)`
   background-color: ${({ theme }) => theme.colors.DARK_GRAY};
   width: 10px;
