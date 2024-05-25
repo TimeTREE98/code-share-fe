@@ -22,10 +22,11 @@ const RoomList = () => {
   return (
     <RoomListContainer>
       {rooms ? (
-        <RoomLists>
-          <p>1번방...</p>
-          <p>2번방...</p>
-        </RoomLists>
+        <RoomTitle>
+          {rooms.map((room) => (
+            <RoomLists key={room.idx}>{room.name}</RoomLists>
+          ))}
+        </RoomTitle>
       ) : (
         <NotRoom />
       )}
@@ -42,6 +43,7 @@ const RoomListContainer = styled.div`
   background: white;
   width: 100%;
   height: 100vh;
+  gap: 10px;
 `;
 
 const RoomLists = styled.div`
@@ -51,5 +53,15 @@ const RoomLists = styled.div`
   flex-direction: column;
   background-color: #d9d9d9;
   width: 700px;
-  height: 300px;
+  height: 60px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+`;
+
+const RoomTitle = styled.p`
+  font-size: 24px;
 `;
