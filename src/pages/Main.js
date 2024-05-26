@@ -14,7 +14,7 @@ function Main({ socket }) {
   return (
     <SocketContainer>
       {isLoggedIn ? (
-        <AdminCodeEditer socket={socket} />
+        <AdminCodeEditer socket={socket} visible />
       ) : (
         <PanelGroup direction="horizontal">
           <StudentLayout>

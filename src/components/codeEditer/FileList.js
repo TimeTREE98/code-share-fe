@@ -9,18 +9,15 @@ const dummyFileList = [
   { id: 4, name: '파일4' },
 ];
 
-const FileList = () => {
+const FileList = ({ visible }) => {
   const [selectId, setSelectId] = useState(0);
   const handleSelectId = (id) => {
     setSelectId(id);
   };
 
-  useEffect(() => {
-    console.log(selectId);
-  }, []);
-
   return (
     <ListContainer>
+      {visible && <NewFileButton>Files +</NewFileButton>}
       <FileListContainer>
         {dummyFileList.map((file, index) => (
           <File key={file.id} id={file.id} $currentId={selectId} onClick={() => handleSelectId(file.id)}>
@@ -36,15 +33,25 @@ const FileList = () => {
 const ListContainer = styled.div`
   width: 200px;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
   flex-shrink: 0;
 `;
 const FileListContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  margin-top: 100px;
+`;
+const NewFileButton = styled.button`
+  width: 100%;
+  padding: 20px 10px;
+  ${({ theme }) => theme.typographies.BUTTON_TXT};
+  color: white;
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.DARK_GRAY};
+  }
+  cursor: pointer;
 `;
 const File = styled.div`
-  padding: 20px 10px;
+  padding: 20px;
   ${({ theme }) => theme.typographies.L_TXT};
   color: white;
   background-color: ${({ $currentId, id, theme }) => ($currentId === id ? theme.colors.DARK_GRAY : `transparent`)};
