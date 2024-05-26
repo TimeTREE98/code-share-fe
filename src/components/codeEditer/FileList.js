@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 
 const dummyFileList = [
-  { id: 0, name: '파일1' },
+  { id: 0, name: '파일0' },
   { id: 1, name: '파일1' },
   { id: 2, name: '파일2' },
   { id: 3, name: '파일3' },
@@ -11,15 +11,28 @@ const dummyFileList = [
 
 const FileList = ({ visible }) => {
   const [selectId, setSelectId] = useState(0);
+  const [fileList, setFileList] = useState(dummyFileList || []);
+
   const handleSelectId = (id) => {
     setSelectId(id);
   };
+  const makeNewFile = () => {
+    const fileName = prompt('파일명을 입력하세요');
+    // TODO 새로운 id value 추가 필요
+    if (fileName !== '') {
+      setFileList((prevState) => [...prevState, { id: 6, name: fileName }]);
+    }
+  };
+
+  useEffect(() => {
+    setFileList(dummyFileList);
+  }, []);
 
   return (
     <ListContainer>
-      {visible && <NewFileButton>Files +</NewFileButton>}
+      {visible && <NewFileButton onClick={() => makeNewFile()}>Files +</NewFileButton>}
       <FileListContainer>
-        {dummyFileList.map((file, index) => (
+        {fileList.map((file, index) => (
           <File key={file.id} id={file.id} $currentId={selectId} onClick={() => handleSelectId(file.id)}>
             {file.name}
           </File>

@@ -53,6 +53,7 @@ function AdminCodeEditer({ socket, visible, ...attrProps }) {
       });
     }
   }, [socket]);
+
   return (
     <Container {...attrProps}>
       <FileList visible={visible} />
