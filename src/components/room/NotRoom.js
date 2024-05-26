@@ -1,19 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import CreateRoomModal from './CreateRoomModal';
 
 const NotRoom = () => {
   const [modal, setModal] = useState(false);
-  const [isLogin, setIsLogin] = useState(true); // 로그인된 사용자만 룸 생성 가능
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const createRoom = () => {
     setModal(true);
   };
 
+  useEffect(() => {
+    setIsLoggedIn(localStorage.getItem('isLoggedIn') === 'true');
+  }, []);
+
   return (
     <RoomLists>
       <RoomText>Room이 존재하지 않습니다!</RoomText>
-      {isLogin && <RoomCreateBtn onClick={createRoom}>+ 생성</RoomCreateBtn>}
+      {isLoggedIn && <RoomCreateBtn onClick={createRoom}>+ 생성</RoomCreateBtn>}
       {modal && <CreateRoomModal setModal={setModal} />}
     </RoomLists>
   );
