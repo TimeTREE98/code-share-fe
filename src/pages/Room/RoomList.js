@@ -57,7 +57,11 @@ const RoomList = () => {
           {rooms ? (
             <RoomTitle>
               {rooms.map((room) => (
-                <RoomLists key={room.idx} onClick={() => handleClickRoom(room)}>
+                <RoomLists
+                  key={room.idx}
+                  onClick={() => handleClickRoom(room)}
+                  isSelected={clickRoom && clickRoom.idx === room.idx}
+                >
                   {room.name}
                 </RoomLists>
               ))}
@@ -65,8 +69,8 @@ const RoomList = () => {
           ) : (
             <NotRoom />
           )}
-          {select && <JoinBtn onClick={handleJoinRoom}>참여하기</JoinBtn>}
         </RoomListContainer>
+        {select && <JoinBtn onClick={handleJoinRoom}>참여하기</JoinBtn>}
       </Content>
     </Container>
   );
@@ -101,6 +105,7 @@ const Content = styled.div`
   justify-content: center;
   align-items: center;
   height: 100%;
+  flex-direction: column;
 `;
 
 const RoomListContainer = styled.div`
@@ -114,7 +119,7 @@ const RoomListContainer = styled.div`
 `;
 
 const RoomLists = styled.div`
-  background-color: #d9d9d9;
+  background-color: ${({ isSelected }) => (isSelected ? '#8b8b8b' : '#d9d9d9')};
   width: 700px;
   height: 60px;
   border: 1px solid #ccc;
@@ -136,4 +141,5 @@ const RoomTitle = styled.p`
 const JoinBtn = styled.button`
   font-size: 24px;
   cursor: pointer;
+  margin-top: 50px;
 `;
