@@ -5,8 +5,10 @@ import NotRoom from '../../components/room/NotRoom';
 import { getRooms } from '../../api/GetRooms';
 
 const RoomList = () => {
-  const [rooms, setRooms] = useState(null);
+  const [rooms, setRooms] = useState(null); // 룸 리스트 업데이트
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [clickRoom, setClickRoom] = useState(null); // 클릭된 룸 정보
+  const [select, setSelect] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,6 +26,15 @@ const RoomList = () => {
       }
     })();
   }, []);
+
+  const handleClickRoom = (room) => {
+    console.log(room);
+    setClickRoom(room);
+    setSelect(true);
+  };
+  const handleJoinRoom = () => {
+    navigate(`/room/${clickRoom.idx}`);
+  };
 
   console.log(rooms);
   return (
@@ -46,12 +57,15 @@ const RoomList = () => {
           {rooms ? (
             <RoomTitle>
               {rooms.map((room) => (
-                <RoomLists key={room.idx}>{room.name}</RoomLists>
+                <RoomLists key={room.idx} onClick={() => handleClickRoom(room)}>
+                  {room.name}
+                </RoomLists>
               ))}
             </RoomTitle>
           ) : (
             <NotRoom />
           )}
+          {select && <JoinBtn onClick={handleJoinRoom}>참여하기</JoinBtn>}
         </RoomListContainer>
       </Content>
     </Container>
@@ -78,6 +92,8 @@ const LoginText = styled.button`
   font-size: 25px;
   margin: 20px 0 -20px 0;
   cursor: pointer;
+  width: 150px;
+  height: 50px;
 `;
 
 const Content = styled.div`
@@ -114,4 +130,10 @@ const RoomLists = styled.div`
 
 const RoomTitle = styled.p`
   font-size: 24px;
+  cursor: pointer;
+`;
+
+const JoinBtn = styled.button`
+  font-size: 24px;
+  cursor: pointer;
 `;

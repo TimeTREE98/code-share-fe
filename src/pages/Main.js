@@ -3,27 +3,30 @@ import { useEffect, useState } from 'react';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import AdminCodeEditer from '../components/codeEditer/AdminCodeEditer';
 import StudentCodeEditer from '../components/codeEditer/StudentCodeEditer';
-import RoomList from './Room/RoomList';
 
 function Main({ socket }) {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    setIsLoggedIn(localStorage.getItem('isLoggedIn') === 'true');
+  }, []);
   return (
     <SocketContainer>
-      <RoomList />
-      {/* {isLoggedIn ? ( */}
-      {/*  <AdminCodeEditer socket={socket} /> */}
-      {/* ) : ( */}
-      {/*  <PanelGroup direction="horizontal"> */}
-      {/*    <StudentLayout> */}
-      {/*      <Panel> */}
-      {/*        <AdminCodeEditer socket={socket} /> */}
-      {/*      </Panel> */}
-      {/*      <StyledHandle /> */}
-      {/*      <Panel> */}
-      {/*        <StudentCodeEditer /> */}
-      {/*      </Panel> */}
-      {/*    </StudentLayout> */}
-      {/*  </PanelGroup> */}
-      {/* )} */}
+      {isLoggedIn ? (
+        <AdminCodeEditer socket={socket} />
+      ) : (
+        <PanelGroup direction="horizontal">
+          <StudentLayout>
+            <Panel>
+              <AdminCodeEditer socket={socket} />
+            </Panel>
+            <StyledHandle />
+            <Panel>
+              <StudentCodeEditer />
+            </Panel>
+          </StudentLayout>
+        </PanelGroup>
+      )}
     </SocketContainer>
   );
 }
