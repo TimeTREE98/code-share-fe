@@ -3,12 +3,14 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import NotRoom from '../../components/room/NotRoom';
 import { getRooms } from '../../api/GetRooms';
+import CreateRoomModal from '../../components/room/CreateRoomModal';
 
 const RoomList = () => {
   const [rooms, setRooms] = useState(null); // 룸 리스트 업데이트
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [clickRoom, setClickRoom] = useState(null); // 클릭된 룸 정보
   const [select, setSelect] = useState(false);
+  const [modal, setModal] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,6 +28,11 @@ const RoomList = () => {
       }
     })();
   }, []);
+
+  const createRoom = () => {
+    setModal(true);
+    console.log('방 생성');
+  };
 
   const handleClickRoom = (room) => {
     console.log(room);
@@ -54,6 +61,12 @@ const RoomList = () => {
       </Header>
       <Content>
         <RoomListContainer>
+          {isLoggedIn && (
+            <CreateRoomBtn onClick={createRoom}>
+              <CreateRoomText>+</CreateRoomText>
+            </CreateRoomBtn>
+          )}
+          {modal && <CreateRoomModal setModal={setModal} />}
           {rooms ? (
             <RoomTitle>
               {rooms.map((room) => (
@@ -114,8 +127,25 @@ const RoomListContainer = styled.div`
   align-items: center;
   flex-direction: column;
   gap: 10px;
-  width: 100%;
+  //width: 100%;
   padding: 20px 0;
+  //background-color: forestgreen;
+  width: 700px;
+`;
+
+const CreateRoomBtn = styled.button`
+  width: 30px;
+  height: 30px;
+  margin-left: auto;
+  border: 1px solid #ccc;
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+`;
+
+const CreateRoomText = styled.p`
+  font-size: 25px;
+  font-weight: bold;
 `;
 
 const RoomLists = styled.div`
