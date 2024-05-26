@@ -8,7 +8,7 @@ import { postCode } from '../../api/postCode';
 import ResultContainer from './ResultContainer';
 import FileList from './FileList';
 
-function AdminCodeEditer({ socket, visible, ...attrProps }) {
+function AdminCodeEditer({ socket, admin, ...attrProps }) {
   const [runResponse, setRunResponse] = useState({});
   const [result, setResult] = useState('');
   const [code, setCode] = useState('// 코드를 입력해주세요');
@@ -56,7 +56,7 @@ function AdminCodeEditer({ socket, visible, ...attrProps }) {
 
   return (
     <Container {...attrProps}>
-      <FileList visible={visible} />
+      <FileList admin={admin} />
       <PanelGroup autoSaveId="example" direction="vertical" style={{ height: '100vh' }}>
         <Panel>
           <Editor

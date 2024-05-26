@@ -9,7 +9,7 @@ const dummyFileList = [
   { id: 4, name: '파일4' },
 ];
 
-const FileList = ({ visible }) => {
+const FileList = ({ admin }) => {
   const [selectId, setSelectId] = useState(0);
   const [fileList, setFileList] = useState(dummyFileList || []);
 
@@ -34,12 +34,12 @@ const FileList = ({ visible }) => {
 
   return (
     <ListContainer>
-      {visible && <NewFileButton onClick={() => makeNewFile()}>Files +</NewFileButton>}
+      {admin && <NewFileButton onClick={() => makeNewFile()}>Files +</NewFileButton>}
       <FileListContainer>
         {fileList.map((file, index) => (
           <File key={file.id} id={file.id} $currentId={selectId} onClick={() => handleSelectId(file.id)}>
             {file.name}
-            <DeleteButton onClick={() => deleteFile(file.id)}>X</DeleteButton>
+            {admin && <DeleteButton onClick={() => deleteFile(file.id)}>X</DeleteButton>}
           </File>
         ))}
       </FileListContainer>
