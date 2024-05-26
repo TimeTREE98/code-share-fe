@@ -16,6 +16,10 @@ const FileList = ({ visible }) => {
   const handleSelectId = (id) => {
     setSelectId(id);
   };
+  const deleteFile = (fileId) => {
+    // TODO 해당 파일 delete API 연결
+    alert(fileId);
+  };
   const makeNewFile = () => {
     const fileName = prompt('파일명을 입력하세요');
     // TODO 새로운 id value 추가 필요
@@ -35,6 +39,7 @@ const FileList = ({ visible }) => {
         {fileList.map((file, index) => (
           <File key={file.id} id={file.id} $currentId={selectId} onClick={() => handleSelectId(file.id)}>
             {file.name}
+            <DeleteButton onClick={() => deleteFile(file.id)}>X</DeleteButton>
           </File>
         ))}
       </FileListContainer>
@@ -65,10 +70,21 @@ const NewFileButton = styled.button`
 `;
 const File = styled.div`
   padding: 20px;
+  display: flex;
+  justify-content: space-between;
   ${({ theme }) => theme.typographies.L_TXT};
   color: white;
   background-color: ${({ $currentId, id, theme }) => ($currentId === id ? theme.colors.DARK_GRAY : `transparent`)};
   cursor: pointer;
+
+  &:hover > button {
+    visibility: visible;
+  }
+`;
+const DeleteButton = styled.button`
+  color: white;
+  ${({ theme }) => theme.typographies.BUTTON_TXT};
+  visibility: hidden;
 `;
 const LogoutButton = styled.button`
   width: 200px;
