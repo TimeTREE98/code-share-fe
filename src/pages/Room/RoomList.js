@@ -29,9 +29,9 @@ const RoomList = () => {
     })();
   }, []);
 
-  const createRoom = () => {
-    setModal(true);
-    console.log('방 생성');
+  const addRoom = (newRoom) => {
+    setRooms((prevRooms) => [...prevRooms, newRoom]);
+    console.log('방 생성!');
   };
 
   const handleClickRoom = (room) => {
@@ -62,11 +62,15 @@ const RoomList = () => {
       <Content>
         <RoomListContainer>
           {isLoggedIn && (
-            <CreateRoomBtn onClick={createRoom}>
+            <CreateRoomBtn
+              onClick={() => {
+                setModal(true);
+              }}
+            >
               <CreateRoomText>+</CreateRoomText>
             </CreateRoomBtn>
           )}
-          {modal && <CreateRoomModal setModal={setModal} />}
+          {modal && <CreateRoomModal setModal={setModal} addRoom={addRoom} />}
           {rooms ? (
             <RoomTitle>
               {rooms.map((room) => (
@@ -131,6 +135,7 @@ const RoomListContainer = styled.div`
   padding: 20px 0;
   //background-color: forestgreen;
   width: 700px;
+  overflow-y: scroll;
 `;
 
 const CreateRoomBtn = styled.button`

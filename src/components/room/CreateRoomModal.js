@@ -3,27 +3,30 @@ import styled from 'styled-components';
 import { createRoom } from '../../api/CreateRoom';
 
 const CreateRoomModal = (props) => {
-  const { setModal } = props;
-  const [title, setTitle] = useState('');
+  const { setModal, addRoom } = props;
+  const [name, setName] = useState('');
   const closeModal = () => {
     setModal(false);
   };
   const handleSubmit = async (e) => {
     e.preventDefault(); // 폼 제출시에 새로고침 방지함
-    const createRoomResult = await createRoom(title);
+    const createRoomResult = await createRoom(name);
+    console.log(createRoomResult); // 여기에 name이 없음.. 여기서 name이 찍히면
+    // addRoom(createRoomResult.name); // 여기서 name 콜백으로 전달해서 RoomList에서 제목 바로 띄울 수 있도록.. ^^
+    console.log(createRoomResult);
     closeModal();
   };
 
   useEffect(() => {
-    console.log(title);
-  }, [title]);
+    console.log(name);
+  }, [name]);
 
   return (
     <ModalContainer>
       <ModalText>방 제목을 입력해주세요.</ModalText>
       <form onSubmit={handleSubmit}>
         <InputContainer>
-          <TitleInput type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+          <TitleInput type="text" value={name} onChange={(e) => setName(e.target.value)} />
           <TitleBtn type="submit">+</TitleBtn>
         </InputContainer>
       </form>
