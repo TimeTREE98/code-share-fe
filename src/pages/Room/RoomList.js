@@ -6,11 +6,12 @@ import { getRooms } from '../../api/GetRooms';
 import CreateRoomModal from '../../components/room/CreateRoomModal';
 
 const RoomList = () => {
-  const [rooms, setRooms] = useState(null); // 룸 리스트 업데이트
+  const [rooms, setRooms] = useState([]); // 룸 리스트 업데이트
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [clickRoom, setClickRoom] = useState(null); // 클릭된 룸 정보
   const [select, setSelect] = useState(false);
   const [modal, setModal] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,6 +19,7 @@ const RoomList = () => {
   }, []);
 
   useEffect(() => {
+    setLoading(true);
     (async () => {
       try {
         const response = await getRooms();
@@ -25,6 +27,8 @@ const RoomList = () => {
         setRooms(response.data.data);
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     })();
   }, []);
@@ -64,36 +68,40 @@ const RoomList = () => {
           </LoginText>
         )}
       </Header>
-      <Content>
-        <RoomListContainer>
-          {isLoggedIn && (
-            <CreateRoomBtn
-              onClick={() => {
-                setModal(true);
-              }}
-            >
-              <CreateRoomText>+</CreateRoomText>
-            </CreateRoomBtn>
-          )}
-          {modal && <CreateRoomModal setModal={setModal} addRoom={addRoom} />}
-          {rooms ? (
-            <RoomTitle>
-              {rooms.map((room) => (
-                <RoomLists
-                  key={room.idx}
-                  onClick={() => handleClickRoom(room)}
-                  isSelected={clickRoom && clickRoom.idx === room.idx}
-                >
-                  {room.name}
-                </RoomLists>
-              ))}
-            </RoomTitle>
-          ) : (
+      {loading ? (
+        <p>데이터를 받아오는 중...</p>
+      ) : (
+        <Content>
+          {rooms.length === 0 ? (
             <NotRoom />
+          ) : (
+            <RoomListContainer>
+              {isLoggedIn && rooms.length > 0 && (
+                <CreateRoomBtn
+                  onClick={() => {
+                    setModal(true);
+                  }}
+                >
+                  <CreateRoomText>+</CreateRoomText>
+                </CreateRoomBtn>
+              )}
+              {modal && <CreateRoomModal setModal={setModal} addRoom={addRoom} />}
+              <RoomTitle>
+                {rooms.map((room) => (
+                  <RoomLists
+                    key={room.idx}
+                    onClick={() => handleClickRoom(room)}
+                    isSelected={clickRoom && clickRoom.idx === room.idx}
+                  >
+                    {room.name}
+                  </RoomLists>
+                ))}
+              </RoomTitle>
+            </RoomListContainer>
           )}
-        </RoomListContainer>
-        {select && <JoinBtn onClick={handleJoinRoom}>참여하기</JoinBtn>}
-      </Content>
+          {select && <JoinBtn onClick={handleJoinRoom}>참여하기</JoinBtn>}
+        </Content>
+      )}
     </Container>
   );
 };
@@ -136,9 +144,7 @@ const RoomListContainer = styled.div`
   align-items: center;
   flex-direction: column;
   gap: 10px;
-  //width: 100%;
   padding: 20px 0;
-  //background-color: forestgreen;
   width: 700px;
   overflow-y: scroll;
 `;
