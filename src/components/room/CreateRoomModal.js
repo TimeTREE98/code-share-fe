@@ -11,9 +11,8 @@ const CreateRoomModal = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault(); // 폼 제출시에 새로고침 방지함
     const createRoomResult = await createRoom(name);
-    console.log(createRoomResult); // 여기에 name이 없음.. 여기서 name이 찍히면
-    // addRoom(createRoomResult.name); // 여기서 name 콜백으로 전달해서 RoomList에서 제목 바로 띄울 수 있도록.. ^^
     console.log(createRoomResult);
+    addRoom();
     closeModal();
   };
 

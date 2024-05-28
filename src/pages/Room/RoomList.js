@@ -29,9 +29,15 @@ const RoomList = () => {
     })();
   }, []);
 
-  const addRoom = (newRoom) => {
-    setRooms((prevRooms) => [...prevRooms, newRoom]);
-    console.log('방 생성!');
+  const addRoom = () => {
+    setTimeout(async () => {
+      try {
+        const response = await getRooms();
+        setRooms(response.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }, 500);
   };
 
   const handleClickRoom = (room) => {
