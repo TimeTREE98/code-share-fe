@@ -49,7 +49,6 @@ const RoomList = () => {
     navigate(`/room/${clickRoom.idx}`);
   };
 
-  console.log(rooms);
   return (
     <Container>
       <Header>

@@ -16,10 +16,6 @@ const CreateRoomModal = (props) => {
     closeModal();
   };
 
-  useEffect(() => {
-    console.log(name);
-  }, [name]);
-
   return (
     <ModalContainer>
       <ModalText>방 제목을 입력해주세요.</ModalText>
