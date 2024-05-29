@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getFiles } from '../../api/getFiles';
 import { useLogout } from '../../hooks/useLogout';
 
 const dummyFileList = [
@@ -16,6 +17,7 @@ const FileList = ({ admin }) => {
   const [fileList, setFileList] = useState(dummyFileList || []);
   const navigate = useNavigate();
   const handleLogout = useLogout();
+  const params = useParams();
 
   const handleSelectId = (id) => {
     setSelectId(id);
@@ -37,6 +39,14 @@ const FileList = ({ admin }) => {
   useEffect(() => {
     setFileList(dummyFileList);
   }, []);
+
+  useEffect(() => {
+    const fetchFiles = async () => {
+      const response = await getFiles(params.roomId);
+      setFileList(response);
+    };
+    fetchFiles();
+  }, [params.roomId]);
 
   return (
     <ListContainer>

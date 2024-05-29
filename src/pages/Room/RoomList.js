@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import NotRoom from '../../components/room/NotRoom';
 import { getRooms } from '../../api/GetRooms';
-import CreateRoomModal from '../../components/room/CreateRoomModal';
 import { useLogout } from '../../hooks/useLogout';
+import NotRoom from '../../components/room/NotRoom';
+import CreateRoomModal from '../../components/room/CreateRoomModal';
 
 const RoomList = () => {
   const [rooms, setRooms] = useState([]); // 룸 리스트 업데이트
@@ -31,6 +31,7 @@ const RoomList = () => {
     setClickRoom(room);
     setSelect(true);
   };
+
   const handleJoinRoom = () => {
     navigate(`/room/${clickRoom.idx}`);
   };

@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { io } from 'socket.io-client';
+import Theme from './styles/Theme';
+import GlobalStyle from './styles/GlobalStyle';
 import Main from './pages/Main';
 import LogIn from './pages/LogIn';
 import RoomList from './pages/Room/RoomList';
-import Theme from './styles/Theme';
-import GlobalStyle from './styles/GlobalStyle';
 
 function App() {
   const [socket, setSocket] = useState(null);
@@ -36,7 +36,7 @@ function App() {
         <Routes>
           <Route element={<RoomList />} path="/" />
           <Route element={<LogIn />} path="/login" />
-          <Route element={<Main socket={socket} />} path="/room/:id" />
+          <Route element={<Main socket={socket} />} path="/room/:roomId" />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
