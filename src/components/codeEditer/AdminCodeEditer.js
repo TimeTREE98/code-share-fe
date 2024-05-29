@@ -19,19 +19,6 @@ function AdminCodeEditer({ socket, admin, ...attrProps }) {
 
   ring2.register();
 
-  useEffect(() => {
-    if (Object.keys(runResponse).length === 0) {
-      return;
-    }
-    if (status?.id === 3) {
-      setIsError(false);
-      setResult(decode(stdout || ''));
-    } else if (status?.id > 3) {
-      setIsError(true);
-      setResult(decode(stderr || ''));
-    }
-  }, [runResponse]);
-
   const handleEditorChange = (e) => {
     if (socket) {
       socket.emit('code', e);
@@ -45,6 +32,19 @@ function AdminCodeEditer({ socket, admin, ...attrProps }) {
     setIsLoading(false);
     setRunResponse(response);
   };
+
+  useEffect(() => {
+    if (Object.keys(runResponse).length === 0) {
+      return;
+    }
+    if (status?.id === 3) {
+      setIsError(false);
+      setResult(decode(stdout || ''));
+    } else if (status?.id > 3) {
+      setIsError(true);
+      setResult(decode(stderr || ''));
+    }
+  }, [runResponse]);
 
   useEffect(() => {
     if (socket) {

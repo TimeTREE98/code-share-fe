@@ -37,11 +37,10 @@ const LogInForm = () => {
       localStorage.setItem('isLoggedIn', true);
       navigate('/');
       if (meCheck.status === 'fail') {
-        alert(meCheck.message);
+        // alert(meCheck.message);
         localStorage.setItem('isLoggedIn', false);
       }
     } else {
-      alert(loginResult.message);
       localStorage.setItem('isLoggedIn', false);
     }
   };

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { logout, me } from '../../api/LoginApi';
+import { useLogout } from '../../hooks/useLogout';
 
 const dummyFileList = [
   { id: 0, name: '파일0' },
@@ -15,6 +15,7 @@ const FileList = ({ admin }) => {
   const [selectId, setSelectId] = useState(0);
   const [fileList, setFileList] = useState(dummyFileList || []);
   const navigate = useNavigate();
+  const handleLogout = useLogout();
 
   const handleSelectId = (id) => {
     setSelectId(id);
@@ -30,28 +31,6 @@ const FileList = ({ admin }) => {
     // TODO 새로운 id value 추가 필요
     if (fileName !== '') {
       setFileList((prevState) => [...prevState, { id: 6, name: fileName }]);
-    }
-  };
-
-  const handleLogout = async () => {
-    const logoutConfirm = window.confirm('로그아웃 할까요?');
-    if (!logoutConfirm) {
-      return;
-    }
-    const response = await logout();
-
-    if (response.status === 'Success') {
-      localStorage.setItem('isLoggedIn', false);
-      const meCheck = await me();
-      navigate('/');
-      if (meCheck.status === 'fail') {
-        alert(meCheck.message);
-        localStorage.setItem('isLoggedIn', false);
-        window.location.reload();
-      }
-    } else {
-      alert(response.message);
-      window.location.reload();
     }
   };
 
@@ -71,7 +50,7 @@ const FileList = ({ admin }) => {
         ))}
       </FileListContainer>
       {admin ? (
-        <AuthButton onClick={() => handleLogout()}>LogOut</AuthButton>
+        <AuthButton onClick={handleLogout}>LogOut</AuthButton>
       ) : (
         <AuthButton onClick={() => navigate('/login')}>LogIn</AuthButton>
       )}
