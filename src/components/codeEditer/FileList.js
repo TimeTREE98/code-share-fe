@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { logout, me } from '../../api/LoginApi';
 
 const dummyFileList = [
   { id: 0, name: '파일0' },
@@ -18,15 +19,39 @@ const FileList = ({ admin }) => {
   const handleSelectId = (id) => {
     setSelectId(id);
   };
+
   const deleteFile = (fileId) => {
     // TODO 해당 파일 delete API 연결
     alert(fileId);
   };
+
   const makeNewFile = () => {
     const fileName = prompt('파일명을 입력하세요');
     // TODO 새로운 id value 추가 필요
     if (fileName !== '') {
       setFileList((prevState) => [...prevState, { id: 6, name: fileName }]);
+    }
+  };
+
+  const handleLogout = async () => {
+    const logoutConfirm = window.confirm('로그아웃 할까요?');
+    if (!logoutConfirm) {
+      return;
+    }
+    const response = await logout();
+
+    if (response.status === 'Success') {
+      localStorage.setItem('isLoggedIn', false);
+      const meCheck = await me();
+      navigate('/');
+      if (meCheck.status === 'fail') {
+        alert(meCheck.message);
+        localStorage.setItem('isLoggedIn', false);
+        window.location.reload();
+      }
+    } else {
+      alert(response.message);
+      window.location.reload();
     }
   };
 
@@ -45,7 +70,11 @@ const FileList = ({ admin }) => {
           </File>
         ))}
       </FileListContainer>
-      {admin ? <AuthButton>LogOut</AuthButton> : <AuthButton onClick={() => navigate('/login')}>LogIn</AuthButton>}
+      {admin ? (
+        <AuthButton onClick={() => handleLogout()}>LogOut</AuthButton>
+      ) : (
+        <AuthButton onClick={() => navigate('/login')}>LogIn</AuthButton>
+      )}
     </ListContainer>
   );
 };
