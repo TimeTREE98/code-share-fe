@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import Main from './pages/Main';
 import LogIn from './pages/LogIn';
+import RoomList from './pages/Room/RoomList';
 import Theme from './styles/Theme';
 import GlobalStyle from './styles/GlobalStyle';
 
@@ -33,8 +34,9 @@ function App() {
       <GlobalStyle />
       <BrowserRouter>
         <Routes>
-          <Route element={<Main socket={socket} />} path="/" />
+          <Route element={<RoomList />} path="/" />
           <Route element={<LogIn />} path="/login" />
+          <Route element={<Main socket={socket} />} path="/room/:id" />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

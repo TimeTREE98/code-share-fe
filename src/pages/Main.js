@@ -10,7 +10,6 @@ function Main({ socket }) {
   useEffect(() => {
     setIsLoggedIn(localStorage.getItem('isLoggedIn') === 'true');
   }, []);
-
   return (
     <SocketContainer>
       {isLoggedIn ? (
