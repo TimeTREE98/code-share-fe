@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const dummyFileList = [
   { id: 0, name: '파일0' },
@@ -12,6 +13,7 @@ const dummyFileList = [
 const FileList = ({ admin }) => {
   const [selectId, setSelectId] = useState(0);
   const [fileList, setFileList] = useState(dummyFileList || []);
+  const navigate = useNavigate();
 
   const handleSelectId = (id) => {
     setSelectId(id);
@@ -43,7 +45,7 @@ const FileList = ({ admin }) => {
           </File>
         ))}
       </FileListContainer>
-      <LogoutButton>LogOut</LogoutButton>
+      {admin ? <AuthButton>LogOut</AuthButton> : <AuthButton onClick={() => navigate('/login')}>LogIn</AuthButton>}
     </ListContainer>
   );
 };
@@ -86,7 +88,7 @@ const DeleteButton = styled.button`
   ${({ theme }) => theme.typographies.BUTTON_TXT};
   visibility: hidden;
 `;
-const LogoutButton = styled.button`
+const AuthButton = styled.button`
   width: 200px;
   height: 50px;
   position: fixed;
