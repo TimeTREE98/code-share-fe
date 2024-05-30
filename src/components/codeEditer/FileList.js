@@ -1,46 +1,54 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+
 import { getFiles } from '../../api/getFiles';
 import { useLogout } from '../../hooks/useLogout';
 
-const dummyFileList = [
-  { id: 0, name: '파일0' },
-  { id: 1, name: '파일1' },
-  { id: 2, name: '파일2' },
-  { id: 3, name: '파일3' },
-  { id: 4, name: '파일4' },
-];
-
-const FileList = ({ admin }) => {
+const FileList = ({ fileList, setFileList, socket, admin }) => {
   const [selectId, setSelectId] = useState(0);
-  const [fileList, setFileList] = useState(dummyFileList || []);
   const navigate = useNavigate();
   const handleLogout = useLogout();
   const params = useParams();
 
   const handleSelectId = (id) => {
     setSelectId(id);
+
+    socket.emit('openFile', {
+      fileIdx: id,
+    });
   };
 
   const deleteFile = (fileId) => {
-    // TODO 해당 파일 delete API 연결
-    alert(fileId);
+    socket.emit('editFile', {
+      event: 'DELETE',
+      roomIdx: params.roomId,
+      data: {
+        idx: fileId,
+      },
+    });
   };
 
   const makeNewFile = () => {
     const fileName = prompt('파일명을 입력하세요');
-    // TODO 새로운 id value 추가 필요
     if (fileName !== '') {
-      setFileList((prevState) => [...prevState, { id: 6, name: fileName }]);
+      socket.emit('editFile', {
+        event: 'CREATE',
+        roomIdx: params.roomId,
+        data: {
+          name: fileName,
+        },
+      });
     }
   };
 
   useEffect(() => {
-    setFileList(dummyFileList);
-  }, []);
+    if (socket) {
+      socket.emit('joinRoom', {
+        roomIdx: params.roomId,
+      });
+    }
 
-  useEffect(() => {
     const fetchFiles = async () => {
       const response = await getFiles(params.roomId);
       setFileList(response);
@@ -48,14 +56,23 @@ const FileList = ({ admin }) => {
     fetchFiles();
   }, [params.roomId]);
 
+  useEffect(() => {
+    if (socket) {
+      socket.on('fileList', (_data) => {
+        const data = JSON.parse(_data);
+        setFileList(data.data);
+      });
+    }
+  }, [socket]);
+
   return (
     <ListContainer>
       {admin && <NewFileButton onClick={() => makeNewFile()}>Files +</NewFileButton>}
       <FileListContainer>
         {fileList.map((file, index) => (
-          <File key={file.id} id={file.id} $currentId={selectId} onClick={() => handleSelectId(file.id)}>
+          <File key={file.idx} id={file.idx} $currentId={selectId} onClick={() => handleSelectId(file.idx)}>
             {file.name}
-            {admin && <DeleteButton onClick={() => deleteFile(file.id)}>X</DeleteButton>}
+            {admin && <DeleteButton onClick={() => deleteFile(file.idx)}>X</DeleteButton>}
           </File>
         ))}
       </FileListContainer>

@@ -7,6 +7,7 @@ import FileList from '../components/codeEditer/FileList';
 
 function Main({ socket }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [fileList, setFileList] = useState([]);
   const [adminCode, setAdminCode] = useState('// 코드를 입력해주세요');
   const [studentCode, setStudentCode] = useState('// 코드를 입력해주세요');
 
@@ -22,12 +23,12 @@ function Main({ socket }) {
     <SocketContainer>
       {isLoggedIn ? (
         <>
-          <FileList />
+          <FileList fileList={fileList} setFileList={setFileList} socket={socket} admin />
           <CodeEditer code={adminCode} handleEditorChange={handleEditorChange} />
         </>
       ) : (
         <PanelGroup direction="horizontal">
-          <FileList />
+          <FileList fileList={fileList} setFileList={setFileList} socket={socket} />
           <StudentLayout>
             <Panel>
               <CodeEditer code={adminCode} readOnly />
