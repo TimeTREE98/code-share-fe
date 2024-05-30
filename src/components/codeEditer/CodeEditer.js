@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Editor from '@monaco-editor/react';
 import { encode, decode } from 'js-base64';
-import { ring2 } from 'ldrs';
 import { postCode } from '../../api/postCode';
 import runIcon from '../../assets/run.svg';
 
@@ -14,8 +13,6 @@ function CodeEditer({ socket }) {
   const [isLoading, setIsLoading] = useState(false);
   // eslint-disable-next-line camelcase
   const { memory, status, stderr, stdout, time } = runResponse || {};
-
-  ring2.register();
 
   const handleEditorChange = (e) => {
     if (socket) {

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { ring2 } from 'ldrs';
 import { decode, encode } from 'js-base64';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import Editor from '@monaco-editor/react';
@@ -15,8 +14,6 @@ const StudentCodeEditer = () => {
   const [isLoading, setIsLoading] = useState(false);
   // eslint-disable-next-line camelcase
   const { memory, status, stderr, stdout, time } = runResponse || {};
-
-  ring2.register();
 
   const runCode = async () => {
     setIsLoading(true);
