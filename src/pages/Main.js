@@ -1,11 +1,13 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 
 import CodeEditer from '../components/codeEditer/CodeEditer';
 import FileList from '../components/codeEditer/FileList';
 
 function Main({ socket }) {
+  const [searchParams] = useSearchParams();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [fileList, setFileList] = useState([]);
   const [adminCode, setAdminCode] = useState('// 코드를 입력해주세요');
@@ -13,11 +15,24 @@ function Main({ socket }) {
 
   const handleEditorChange = (e) => {
     setAdminCode(e);
+
+    if (socket) {
+      socket.emit('pushCode', { fileIdx: searchParams.get('fileIdx'), code: e });
+    }
   };
 
   useEffect(() => {
     setIsLoggedIn(localStorage.getItem('isLoggedIn') === 'true');
   }, []);
+
+  useEffect(() => {
+    if (socket) {
+      socket.on('listenCode', (_data) => {
+        const data = JSON.parse(_data);
+        setAdminCode(data.code);
+      });
+    }
+  }, [socket]);
 
   return (
     <SocketContainer>
