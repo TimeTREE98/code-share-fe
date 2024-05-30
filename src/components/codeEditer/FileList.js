@@ -45,12 +45,6 @@ const FileList = ({ fileList, setFileList, socket, admin }) => {
   };
 
   useEffect(() => {
-    if (socket) {
-      socket.emit('joinRoom', {
-        roomIdx: params.roomId,
-      });
-    }
-
     const fetchFiles = async () => {
       const response = await getFiles(params.roomId);
       setFileList(response);
@@ -60,6 +54,10 @@ const FileList = ({ fileList, setFileList, socket, admin }) => {
 
   useEffect(() => {
     if (socket) {
+      socket.emit('joinRoom', {
+        roomIdx: params.roomId,
+      });
+
       socket.on('fileList', (_data) => {
         const data = JSON.parse(_data);
         setFileList(data.data);
