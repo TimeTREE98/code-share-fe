@@ -17,8 +17,6 @@ const FileList = ({ fileList, setFileList, socket, admin }) => {
     socket.emit('openFile', {
       fileIdx: id,
     });
-
-    navigate(`/room/${params.roomId}?fileIdx=${id}`);
   };
 
   const deleteFile = (fileId) => {
