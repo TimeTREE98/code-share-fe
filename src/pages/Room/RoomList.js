@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import NotRoom from '../../components/room/NotRoom';
 import { getRooms } from '../../api/GetRooms';
+import { useLogout } from '../../hooks/useLogout';
+import NotRoom from '../../components/room/NotRoom';
 import CreateRoomModal from '../../components/room/CreateRoomModal';
 
 const RoomList = () => {
@@ -13,25 +14,7 @@ const RoomList = () => {
   const [modal, setModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    setIsLoggedIn(localStorage.getItem('isLoggedIn') === 'true');
-  }, []);
-
-  useEffect(() => {
-    setLoading(true);
-    (async () => {
-      try {
-        const response = await getRooms();
-        console.log(response);
-        setRooms(response.data.data);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    })();
-  }, []);
+  const logout = useLogout();
 
   const addRoom = () => {
     setTimeout(async () => {
@@ -45,19 +28,40 @@ const RoomList = () => {
   };
 
   const handleClickRoom = (room) => {
-    console.log(room);
     setClickRoom(room);
     setSelect(true);
   };
+
   const handleJoinRoom = () => {
     navigate(`/room/${clickRoom.idx}`);
   };
+
+  useEffect(() => {
+    setIsLoggedIn(localStorage.getItem('isLoggedIn') === 'true');
+  }, []);
+
+  useEffect(() => {
+    const fetchRoomList = async () => {
+      setLoading(true);
+
+      try {
+        const response = await getRooms();
+        setRooms(response.data.data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRoomList();
+  }, []);
 
   return (
     <Container>
       <Header>
         {isLoggedIn ? (
-          <LoginText>로그아웃</LoginText>
+          <LoginText onClick={() => logout()}>로그아웃</LoginText>
         ) : (
           <LoginText
             onClick={() => {

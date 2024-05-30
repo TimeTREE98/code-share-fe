@@ -16,6 +16,10 @@ const Theme = {
       font-size: 32px;
       font-weight: 700;
     `,
+    L_TXT: css`
+      font-size: 24px;
+      font-weight: 500;
+    `,
     DEFAULT_TXT: css`
       font-size: 16px;
       font-weight: 500;
