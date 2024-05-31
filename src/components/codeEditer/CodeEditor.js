@@ -7,7 +7,7 @@ import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import ResultContainer from './ResultContainer';
 import { postCode } from '../../api/postCode';
 
-function CodeEditer({ code, handleEditorChange, readOnly }) {
+function CodeEditor({ code, handleEditorChange, readOnly }) {
   const [runResponse, setRunResponse] = useState({});
   const [result, setResult] = useState('');
   const [isError, setIsError] = useState(false);
@@ -70,7 +70,7 @@ function CodeEditer({ code, handleEditorChange, readOnly }) {
   );
 }
 
-export default CodeEditer;
+export default CodeEditor;
 
 const StyledHandle = styled(PanelResizeHandle)`
   background-color: ${({ theme }) => theme.colors.DARK_GRAY};
