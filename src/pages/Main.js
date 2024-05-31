@@ -1,28 +1,56 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
-import AdminCodeEditer from '../components/codeEditer/AdminCodeEditer';
-import StudentCodeEditer from '../components/codeEditer/StudentCodeEditer';
+
+import CodeEditer from '../components/codeEditer/CodeEditer';
+import FileList from '../components/codeEditer/FileList';
 
 function Main({ socket }) {
+  const [searchParams] = useSearchParams();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [fileList, setFileList] = useState([]);
+  const [adminCode, setAdminCode] = useState('// 코드를 입력해주세요');
+  const [studentCode, setStudentCode] = useState('// 코드를 입력해주세요');
+
+  const handleEditorChange = (e) => {
+    setAdminCode(e);
+
+    if (socket) {
+      socket.emit('pushCode', { fileIdx: searchParams.get('fileIdx'), code: e });
+    }
+  };
 
   useEffect(() => {
     setIsLoggedIn(localStorage.getItem('isLoggedIn') === 'true');
   }, []);
+
+  useEffect(() => {
+    if (socket) {
+      socket.on('listenCode', (_data) => {
+        const data = JSON.parse(_data);
+        setAdminCode(data.code);
+      });
+    }
+  }, [socket]);
+
   return (
     <SocketContainer>
       {isLoggedIn ? (
-        <AdminCodeEditer socket={socket} admin />
+        <>
+          <FileList fileList={fileList} setFileList={setFileList} socket={socket} admin />
+          <CodeEditer code={adminCode} handleEditorChange={handleEditorChange} />
+        </>
       ) : (
         <PanelGroup direction="horizontal">
+          <FileList fileList={fileList} setFileList={setFileList} socket={socket} />
           <StudentLayout>
             <Panel>
-              <AdminEditer socket={socket} />
+              <CodeEditer code={adminCode} readOnly />
             </Panel>
             <StyledHandle />
             <Panel>
-              <StudentCodeEditer />
+              <CodeEditer code={studentCode} handleEditorChange={setStudentCode} />
             </Panel>
           </StudentLayout>
         </PanelGroup>
@@ -39,9 +67,6 @@ const SocketContainer = styled.div`
 const StudentLayout = styled.div`
   width: 100%;
   display: flex;
-`;
-const AdminEditer = styled(AdminCodeEditer)`
-  width: 100%;
 `;
 const StyledHandle = styled(PanelResizeHandle)`
   background-color: ${({ theme }) => theme.colors.DARK_GRAY};

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { io } from 'socket.io-client';
+import { ring2 } from 'ldrs';
 import Theme from './styles/Theme';
 import GlobalStyle from './styles/GlobalStyle';
 import Main from './pages/Main';
@@ -9,6 +10,7 @@ import LogIn from './pages/LogIn';
 import RoomList from './pages/Room/RoomList';
 
 function App() {
+  ring2.register();
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
