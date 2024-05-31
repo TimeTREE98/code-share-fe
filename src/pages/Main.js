@@ -39,18 +39,18 @@ function Main({ socket }) {
       {isLoggedIn ? (
         <>
           <FileList fileList={fileList} setFileList={setFileList} socket={socket} admin />
-          <CodeEditor code={adminCode} handleEditorChange={handleEditorChange} />
+          <CodeEditor code={adminCode} handleEditorChange={handleEditorChange} showCopyBtn />
         </>
       ) : (
         <PanelGroup direction="horizontal">
           <FileList fileList={fileList} setFileList={setFileList} socket={socket} />
           <StudentLayout>
             <Panel>
-              <CodeEditor code={adminCode} readOnly />
+              <CodeEditor code={adminCode} readOnly showCopyBtn />
             </Panel>
             <StyledHandle />
             <Panel>
-              <CodeEditor code={studentCode} handleEditorChange={setStudentCode} />
+              <CodeEditor code={studentCode} handleEditorChange={setStudentCode} showCopyBtn={false} />
             </Panel>
           </StudentLayout>
         </PanelGroup>
