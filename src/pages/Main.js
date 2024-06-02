@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 
-import CodeEditer from '../components/codeEditer/CodeEditer';
+import CodeEditor from '../components/codeEditer/CodeEditor';
 import FileList from '../components/codeEditer/FileList';
 
 function Main({ socket }) {
@@ -39,21 +39,21 @@ function Main({ socket }) {
       {isLoggedIn ? (
         <>
           <FileList fileList={fileList} setFileList={setFileList} socket={socket} admin />
-          <CodeEditer code={adminCode} handleEditorChange={handleEditorChange} />
+          <CodeEditor code={adminCode} handleEditorChange={handleEditorChange} showCopyBtn />
         </>
       ) : (
-        <PanelGroup direction="horizontal">
-          <FileList fileList={fileList} setFileList={setFileList} socket={socket} />
-          <StudentLayout>
+        <StudentLayout>
+          <PanelGroup direction="horizontal">
+            <FileList fileList={fileList} setFileList={setFileList} socket={socket} />
             <Panel>
-              <CodeEditer code={adminCode} readOnly />
+              <CodeEditor code={adminCode} readOnly showCopyBtn />
             </Panel>
             <StyledHandle />
             <Panel>
-              <CodeEditer code={studentCode} handleEditorChange={setStudentCode} />
+              <CodeEditor code={studentCode} handleEditorChange={setStudentCode} showCopyBtn={false} />
             </Panel>
-          </StudentLayout>
-        </PanelGroup>
+          </PanelGroup>
+        </StudentLayout>
       )}
     </SocketContainer>
   );

@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { decode, encode } from 'js-base64';
 import Editor from '@monaco-editor/react';
 import styled from 'styled-components';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
-
+import { CopyToClipboard } from 'react-copy-to-clipboard/src';
 import ResultContainer from './ResultContainer';
 import { postCode } from '../../api/postCode';
 
-function CodeEditer({ code, handleEditorChange, readOnly }) {
+function CodeEditor({ code, handleEditorChange, readOnly, showCopyBtn }) {
   const [runResponse, setRunResponse] = useState({});
   const [result, setResult] = useState('');
   const [isError, setIsError] = useState(false);
@@ -36,7 +36,7 @@ function CodeEditer({ code, handleEditorChange, readOnly }) {
   }, [runResponse]);
 
   return (
-    <PanelGroup autoSaveId="example" direction="vertical" style={{ height: '100vh' }}>
+    <PanelGroup autoSaveId="example" direction="vertical" style={{ position: 'relative', height: '100vh' }}>
       <Panel>
         <Editor
           value={code}
@@ -54,9 +54,20 @@ function CodeEditer({ code, handleEditorChange, readOnly }) {
           onChange={handleEditorChange}
         />
       </Panel>
+      {showCopyBtn && (
+        <CopyToClipboard
+          text={code}
+          onCopy={() => {
+            alert('코드 복사!');
+          }}
+        >
+          <CopyButton type="submit">Copy</CopyButton>
+        </CopyToClipboard>
+      )}
       <StyledHandle />
       <Panel>
         <ResultContainer
+          code={code}
           runCode={runCode}
           isLoading={isLoading}
           isError={isError}
@@ -70,9 +81,22 @@ function CodeEditer({ code, handleEditorChange, readOnly }) {
   );
 }
 
-export default CodeEditer;
+export default CodeEditor;
 
 const StyledHandle = styled(PanelResizeHandle)`
   background-color: ${({ theme }) => theme.colors.DARK_GRAY};
   height: 10px;
+`;
+
+const CopyButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+  background-color: white;
+  color: black;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
 `;
