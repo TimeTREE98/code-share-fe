@@ -17,22 +17,31 @@ const CreateRoomModal = (props) => {
   };
 
   return (
-    <ModalContainer>
-      <ModalText>방 제목을 입력해주세요.</ModalText>
-      <form onSubmit={handleSubmit}>
-        <InputContainer>
-          <TitleInput type="text" value={name} onChange={(e) => setName(e.target.value)} />
-          <TitleBtn type="submit">+</TitleBtn>
-        </InputContainer>
-      </form>
-    </ModalContainer>
+    <div style={{ position: 'fixed' }}>
+      <ModalContainer>
+        <CloseModalBtn
+          onClick={() => {
+            closeModal();
+          }}
+        >
+          x
+        </CloseModalBtn>
+        <ModalText>방 제목을 입력해주세요.</ModalText>
+        <form onSubmit={handleSubmit}>
+          <InputContainer>
+            <TitleInput type="text" value={name} onChange={(e) => setName(e.target.value)} />
+            <TitleBtn type="submit">+</TitleBtn>
+          </InputContainer>
+        </form>
+      </ModalContainer>
+    </div>
   );
 };
 
 export default CreateRoomModal;
 
 const ModalContainer = styled.div`
-  position: fixed;
+  position: relative;
   top: 25%;
   bottom: 0;
   width: 500px;
@@ -43,6 +52,17 @@ const ModalContainer = styled.div`
   justify-content: center;
   align-items: center;
   border: 1px solid black;
+`;
+
+const CloseModalBtn = styled.button`
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 4px 4px;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #ccc;
+  font-size: 20px;
 `;
 
 const ModalText = styled.p`
