@@ -68,6 +68,13 @@ const FileList = ({ fileList, setFileList, socket, admin }) => {
 
   return (
     <ListContainer>
+      <GoMainBtn
+        src={backIcon}
+        onClick={() => {
+          navigate('/');
+        }}
+        alt="뒤로가기"
+      />
       {admin && <NewFileButton onClick={() => makeNewFile()}>Files +</NewFileButton>}
       <FileListContainer>
         {fileList.map((file, index) => (
@@ -77,13 +84,6 @@ const FileList = ({ fileList, setFileList, socket, admin }) => {
           </File>
         ))}
       </FileListContainer>
-      <GoMainBtn
-        src={backIcon}
-        onClick={() => {
-          navigate('/');
-        }}
-        alt="뒤로가기"
-      />
       {admin ? (
         <AuthButton onClick={handleLogout}>LogOut</AuthButton>
       ) : (
@@ -99,7 +99,6 @@ const ListContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  background-color: forestgreen;
 `;
 const FileListContainer = styled.div`
   margin-top: 100px;
@@ -141,10 +140,8 @@ const AuthButton = styled.button`
 `;
 
 const GoMainBtn = styled.img`
-  position: fixed;
-  bottom: 70px;
-  width: 30px;
-  margin-left: 10px;
+  width: 25px;
+  margin: 10px 0 10px 10px;
   cursor: pointer;
 `;
 export default FileList;
