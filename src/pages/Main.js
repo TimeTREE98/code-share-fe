@@ -42,9 +42,9 @@ function Main({ socket }) {
           <CodeEditor code={adminCode} handleEditorChange={handleEditorChange} showCopyBtn />
         </>
       ) : (
-        <PanelGroup direction="horizontal">
-          <FileList fileList={fileList} setFileList={setFileList} socket={socket} />
-          <StudentLayout>
+        <StudentLayout>
+          <PanelGroup direction="horizontal">
+            <FileList fileList={fileList} setFileList={setFileList} socket={socket} />
             <Panel>
               <CodeEditor code={adminCode} readOnly showCopyBtn />
             </Panel>
@@ -52,8 +52,8 @@ function Main({ socket }) {
             <Panel>
               <CodeEditor code={studentCode} handleEditorChange={setStudentCode} showCopyBtn={false} />
             </Panel>
-          </StudentLayout>
-        </PanelGroup>
+          </PanelGroup>
+        </StudentLayout>
       )}
     </SocketContainer>
   );

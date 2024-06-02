@@ -4,7 +4,6 @@ import Editor from '@monaco-editor/react';
 import styled from 'styled-components';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import { CopyToClipboard } from 'react-copy-to-clipboard/src';
-// import { debounce } from 'lodash';
 import ResultContainer from './ResultContainer';
 import { postCode } from '../../api/postCode';
 
@@ -15,8 +14,6 @@ function CodeEditor({ code, handleEditorChange, readOnly, showCopyBtn }) {
   const [isLoading, setIsLoading] = useState(false);
   // eslint-disable-next-line camelcase
   const { memory, status, stderr, stdout, time } = runResponse || {};
-
-  // const resizeHandleRef = useRef(null);
 
   const runCode = async () => {
     setIsLoading(true);
@@ -37,33 +34,6 @@ function CodeEditor({ code, handleEditorChange, readOnly, showCopyBtn }) {
       setResult(decode(stderr || ''));
     }
   }, [runResponse]);
-
-  // const handleResize = debounce(() => {
-  //   console.log('사이즈가 변경!');
-  // }, 250);
-  //
-  // useEffect(() => {
-  //   console.log('디바운스 적용 안됨!');
-  //   const resizeObserver = new ResizeObserver((entries) => {
-  //     window.requestAnimationFrame(() => {
-  //       if (!Array.isArray(entries) || !entries.length) {
-  //         return;
-  //       }
-  //       handleResize();
-  //     });
-  //   });
-  //
-  //   if (resizeHandleRef.current) {
-  //     resizeObserver.observe(resizeHandleRef.current);
-  //   }
-  //
-  //   // 언마운트될 때 observer 구독 해제
-  //   return () => {
-  //     if (resizeHandleRef.current) {
-  //       resizeObserver.unobserve(resizeHandleRef.current);
-  //     }
-  //   };
-  // }, []);
 
   return (
     <PanelGroup autoSaveId="example" direction="vertical" style={{ position: 'relative', height: '100vh' }}>
@@ -94,7 +64,6 @@ function CodeEditor({ code, handleEditorChange, readOnly, showCopyBtn }) {
           <CopyButton type="submit">Copy</CopyButton>
         </CopyToClipboard>
       )}
-      {/* <StyledHandle ref={resizeHandleRef} /> */}
       <StyledHandle />
       <Panel>
         <ResultContainer
