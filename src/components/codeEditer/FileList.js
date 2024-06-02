@@ -5,6 +5,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getFiles } from '../../api/getFiles';
 import { useLogout } from '../../hooks/useLogout';
 
+import backIcon from '../../assets/goBack.svg';
+
 const FileList = ({ fileList, setFileList, socket, admin }) => {
   const [selectId, setSelectId] = useState(0);
   const navigate = useNavigate();
@@ -75,6 +77,13 @@ const FileList = ({ fileList, setFileList, socket, admin }) => {
           </File>
         ))}
       </FileListContainer>
+      <GoMainBtn
+        src={backIcon}
+        onClick={() => {
+          navigate('/');
+        }}
+        alt="뒤로가기"
+      />
       {admin ? (
         <AuthButton onClick={handleLogout}>LogOut</AuthButton>
       ) : (
@@ -90,6 +99,7 @@ const ListContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
+  background-color: forestgreen;
 `;
 const FileListContainer = styled.div`
   margin-top: 100px;
@@ -128,5 +138,13 @@ const AuthButton = styled.button`
   position: fixed;
   bottom: 0;
   background-color: ${({ theme }) => theme.colors.GRAY};
+`;
+
+const GoMainBtn = styled.img`
+  position: fixed;
+  bottom: 70px;
+  width: 30px;
+  margin-left: 10px;
+  cursor: pointer;
 `;
 export default FileList;
