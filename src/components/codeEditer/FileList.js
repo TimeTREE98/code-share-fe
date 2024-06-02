@@ -12,6 +12,7 @@ const FileList = ({ fileList, setFileList, socket, admin }) => {
   const params = useParams();
 
   const handleSelectId = (id) => {
+    navigate(`/room/${params.roomId}?fileIdx=${id}`);
     setSelectId(id);
 
     socket.emit('openFile', {
