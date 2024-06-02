@@ -5,6 +5,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getFiles } from '../../api/getFiles';
 import { useLogout } from '../../hooks/useLogout';
 
+import backIcon from '../../assets/goBack.svg';
+
 const FileList = ({ fileList, setFileList, socket, admin }) => {
   const [selectId, setSelectId] = useState(0);
   const navigate = useNavigate();
@@ -66,6 +68,13 @@ const FileList = ({ fileList, setFileList, socket, admin }) => {
 
   return (
     <ListContainer>
+      <GoMainBtn
+        src={backIcon}
+        onClick={() => {
+          navigate('/');
+        }}
+        alt="뒤로가기"
+      />
       {admin && <NewFileButton onClick={() => makeNewFile()}>Files +</NewFileButton>}
       <FileListContainer>
         {fileList.map((file, index) => (
@@ -128,5 +137,11 @@ const AuthButton = styled.button`
   position: fixed;
   bottom: 0;
   background-color: ${({ theme }) => theme.colors.GRAY};
+`;
+
+const GoMainBtn = styled.img`
+  width: 25px;
+  margin: 10px 0 10px 10px;
+  cursor: pointer;
 `;
 export default FileList;
